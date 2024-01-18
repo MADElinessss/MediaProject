@@ -8,7 +8,7 @@
 import Alamofire
 import UIKit
 
-// MARK: - Welcome
+// MARK: - Movie
 struct Movie: Codable {
     let cast, crew: [Cast]
     let id: Int
@@ -20,8 +20,8 @@ struct Cast: Codable {
     let backdropPath: String?
     let genreIDS: [Int]
     let id: Int
-    let originalLanguage: OriginalLanguage
-    let originalTitle, overview: String
+    let originalLanguage: String?
+    let originalTitle, overview: String?
     let popularity: Double
     let posterPath: String?
     let releaseDate, title: String
@@ -31,7 +31,7 @@ struct Cast: Codable {
     let character: String?
     let creditID: String
     let order: Int?
-    let department: Department?
+    let department: String?
     let job: String?
 
     enum CodingKeys: String, CodingKey {
@@ -53,26 +53,14 @@ struct Cast: Codable {
     }
 }
 
-enum Department: String, Codable {
-    case crew = "Crew"
-    case directing = "Directing"
-    case production = "Production"
-    case writing = "Writing"
-}
-
-enum OriginalLanguage: String, Codable {
-    case de = "de"
-    case en = "en"
-    case fr = "fr"
-    case it = "it"
-}
-
-
 class ViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    let list: [Movie] = []
+    // 받아올 데이터
+    var movie: Movie?
+    // 데이터 저장할 리스트
+    var list: [Movie] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,15 +79,18 @@ class ViewController: UIViewController {
             "Accept": "application/json",
             "Authorization": "Bearer \(APIKey.TMDBaccessToken)"
         ]
+        
+        let url = "https://api.themoviedb.org/3/person/\(personId)/movie_credits?language=en-US"
 
-        AF.request("https://api.themoviedb.org/3/person/\(personId)/movie_credits?language=en-US",
+        AF.request(url,
                    method: .get,
                    headers: headers)
-            .responseJSON { response in
+        .responseDecodable(of: Movie.self) { response in
                 switch response.result {
-                case .success(let value):
-                    print(value)
-                    // Here you can parse the JSON response as needed.
+                case .success(let success):
+                    self.movie = success
+                    // TODO: 여기부터해
+//                    list.append(movie)
                 case .failure(let error):
                     print(error)
                 }
@@ -115,10 +106,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell") as! MovieTableViewCell
         
-        
+        let document = list[0].cast[indexPath.row]
+        print(document)
+        cell.titleLabel.text = document.originalTitle
         
         return cell
     }
-    
-    
 }

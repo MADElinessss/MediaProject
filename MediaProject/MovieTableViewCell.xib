@@ -108,6 +108,13 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="dateLabel" destination="w9R-R4-PrM" id="U9m-bj-oea"/>
+                <outlet property="descriptionLabel" destination="b81-1D-Ip8" id="u0g-a3-fGd"/>
+                <outlet property="genreLabel" destination="HgG-h4-a3u" id="EqL-FU-ZC7"/>
+                <outlet property="movieImage" destination="bBU-YS-5Zi" id="EYT-LD-R1P"/>
+                <outlet property="titleLabel" destination="Xgm-gt-T61" id="BJZ-hq-JLD"/>
+            </connections>
             <point key="canvasLocation" x="138.93129770992365" y="116.54929577464789"/>
         </tableViewCell>
     </objects>
