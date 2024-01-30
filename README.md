@@ -1,11 +1,11 @@
 ## ✅ SeSAC 26일차 Assignment
 
-- [x]  TMDB API 3개 사용
-    - [x]  컬렉션뷰 - TV Trend API
-    - [x]  테이블뷰 0번째 섹션 - 컬렉션뷰 - TV Top Rated API
-    - [x]  테이블뷰 0번째 섹션 - 컬렉션뷰 - TV Popular API
-- [x]  UI 마음대로 구성 -> 쿠팡 플레이 보고 했다네~
-- [ ]  포스터 이미지 nil 값일 경우 해저케이블 먹는 상어 뜨게 처리
+- TMDB API 3개 사용
+    -  컬렉션뷰 - TV Trend API
+    -  테이블뷰 0번째 섹션 - 컬렉션뷰 - TV Top Rated API
+    -  테이블뷰 0번째 섹션 - 컬렉션뷰 - TV Popular API
+- UI 마음대로 구성 -> 쿠팡 플레이 보고 했다네~
+- 포스터 이미지 nil 값일 경우 해저케이블 먹는 상어 뜨게 처리
 
 <table>
 <tr>
