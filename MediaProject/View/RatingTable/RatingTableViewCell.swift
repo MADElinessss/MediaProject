@@ -36,14 +36,14 @@ class RatingTableViewCell: UITableViewCell {
     }
 
     func configureView() {
-        collectionView.backgroundColor = .red
+        collectionView.backgroundColor = .black
     }
     
     static func configureCollectionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         
         layout.itemSize = CGSize(width: 120, height: 160)
-        layout.minimumLineSpacing = 0
+        layout.minimumLineSpacing = 8
         layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
