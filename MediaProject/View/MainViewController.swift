@@ -22,6 +22,11 @@ class MainViewController: UIViewController {
         RatingTV(results: []),
         RatingTV(results: [])
     ]
+    var popularList : [PopularTV] = [
+        PopularTV(results: []),
+        PopularTV(results: []),
+        PopularTV(results: [])
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +43,11 @@ class MainViewController: UIViewController {
         
         APIManager.shared.fetchTopRatedTV { tv in
             self.ratingList[0] = tv
+            self.tableView.reloadData()
+        }
+        
+        APIManager.shared.fetchPopularTV { tv in
+            self.popularList[0] = tv
             self.tableView.reloadData()
         }
     }
@@ -124,17 +134,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "RatingTableViewCell", for: indexPath) as! RatingTableViewCell
         
-        switch indexPath.section {
-        case 0:
-            cell.collectionView.delegate = self
-            cell.collectionView.dataSource = self
-            cell.collectionView.register(RatingCollectionViewCell.self, forCellWithReuseIdentifier: "RatingCollectionViewCell")
-            cell.collectionView.tag = indexPath.section
-        case 1:
-            print("3")
-        default:
-            break
-        }
+        cell.collectionView.delegate = self
+        cell.collectionView.dataSource = self
+        cell.collectionView.register(RatingCollectionViewCell.self, forCellWithReuseIdentifier: "RatingCollectionViewCell")
+        cell.collectionView.tag = indexPath.section
         
         cell.collectionView.reloadData()
         
@@ -154,7 +157,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             headerLabel.text = "TOP 랭킹"
         case 1:
-            headerLabel.text = "다른 제목"
+            headerLabel.text = "인기 작품"
         default:
             headerLabel.text = ""
         }
@@ -170,22 +173,43 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if collectionView == self.collectionView {
             return trendingList.count
         } else {
-            return ratingList[collectionView.tag].results.count
+            switch collectionView.tag {
+            case 0: // ratingList
+                return ratingList[0].results.count
+            case 1: // popularList
+                return popularList[0].results.count
+            default:
+                return 0
+            }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.collectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TrendCollectionViewCell", for: indexPath) as! TrendCollectionViewCell
-            cell.titleLabel.text = trendingList[indexPath.item].name
-            let url = URL(string: "https://image.tmdb.org/t/p/w300/\(trendingList[indexPath.item].posterPath)")
-            cell.posterImageView.kf.setImage(with: url)
-            return cell
+                    cell.titleLabel.text = trendingList[indexPath.item].name
+                    let url = URL(string: "https://image.tmdb.org/t/p/w300/\(trendingList[indexPath.item].posterPath)")
+                    cell.posterImageView.kf.setImage(with: url)
+                    return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RatingCollectionViewCell", for: indexPath) as! RatingCollectionViewCell
-            let result = ratingList[collectionView.tag].results[indexPath.item]
-            let url = URL(string: "https://image.tmdb.org/t/p/w300/\(result.posterPath)")
-            cell.posterImageView.kf.setImage(with: url)
+            
+            if collectionView.tag == 0 {
+                let result = ratingList[0].results[indexPath.item]
+                let url = URL(string: "https://image.tmdb.org/t/p/w300/\(result.posterPath)")
+                cell.posterImageView.kf.setImage(with: url)
+                
+            } else if collectionView.tag == 1 {
+                let result = popularList[0].results[indexPath.item]
+                // result를 사용하여 cell 구성
+                if let posterPath = result.posterPath {
+                    let url = URL(string: "https://image.tmdb.org/t/p/w300/\(posterPath)")
+                    cell.posterImageView.kf.setImage(with: url)
+                } else {
+                    cell.posterImageView.image = UIImage(named: "default")
+                }
+                
+            }
             return cell
         }
     }

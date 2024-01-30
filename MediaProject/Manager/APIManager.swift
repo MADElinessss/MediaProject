@@ -46,4 +46,18 @@ class APIManager {
         }
     }
     
+    func fetchPopularTV(completionHandler: @escaping ((PopularTV) -> Void)) {
+        let url = "https://api.themoviedb.org/3/tv/popular?language=ko-KR"
+        let header: HTTPHeaders = ["Authorization" : APIKey.TMDBaccessToken]
+        
+        AF.request(url, method: .get, headers: header).responseDecodable(of: PopularTV.self) { response in
+            switch response.result {
+            case .success(let success):
+                completionHandler(success)
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
+    
 }
