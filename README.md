@@ -18,6 +18,10 @@
 
 ![image](https://github.com/MADElinessss/MediaProject/assets/88757043/5ee2c63f-4c46-461c-b78c-b94071bb914a)
 
+</td>
+<td>
+
+![Simulator Screen Recording - iPhone 15 Pro - 2024-01-30 at 23 16 14](https://github.com/MADElinessss/MediaProject/assets/88757043/29791f31-35d7-4cd5-9940-1e885db12801)
 
 </td>
 </tr>
