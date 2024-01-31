@@ -13,14 +13,14 @@ struct RatingTV: Decodable {
 
 struct RatingTVResults: Decodable {
 //    let backdropPath: String
-//    let id: Int
+    let id: Int
 //    let overview: String
     let posterPath: String
 //    let title: String
     
     enum CodingKeys: String, CodingKey {
 //        case backdropPath = "backdrop_path"
-//        case id
+        case id
 //        case overview
         case posterPath = "poster_path"
 //        case title

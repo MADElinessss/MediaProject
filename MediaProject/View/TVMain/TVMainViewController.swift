@@ -9,7 +9,7 @@ import Kingfisher
 import SnapKit
 import UIKit
 
-class MainViewController: UIViewController {
+class TVMainViewController: UIViewController {
     
     let logoImageView = UIImageView()
     let titleLabel = UILabel()
@@ -17,6 +17,7 @@ class MainViewController: UIViewController {
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionViewLayout())
     
     var trendingList : [TV] = []
+    
     var ratingList : [RatingTV] = [
         RatingTV(results: []),
         RatingTV(results: []),
@@ -120,7 +121,7 @@ class MainViewController: UIViewController {
     
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension TVMainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -167,7 +168,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension TVMainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.collectionView {
@@ -212,5 +213,21 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
             return cell
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let seriesID: Int
+        
+        if collectionView == self.collectionView {
+            seriesID = trendingList[indexPath.item].id
+        } else if collectionView.tag == 0 {
+            seriesID = ratingList[0].results[indexPath.item].id
+        } else {
+            seriesID = popularList[0].results[indexPath.item].id
+        }
+        
+        let tvSeriesViewController = TVSeriesViewController(seriesID: seriesID)
+        tvSeriesViewController.modalPresentationStyle = .fullScreen
+        present(tvSeriesViewController, animated: true)
     }
 }
