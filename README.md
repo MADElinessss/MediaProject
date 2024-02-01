@@ -26,3 +26,29 @@
 </td>
 </tr>
 </table>
+
+
+## ✅ SeSAC 27일차 Assignment
+
+- [x] DispatchGroup 활용
+    - [x]  드라마 정보 API
+    - [x]  비슷한 드라마 추천 API
+    - [x]  캐스트 정보 API
+- [x] 쿠팡플레이 UI(테이블뷰 안에 컬렉션뷰) * 3
+
+<table>
+<tr>
+<td>
+ 
+![image](https://github.com/MADElinessss/MediaProject/assets/88757043/cbc29af0-5744-44dd-be07-0e4c4b91e7b1)
+
+</td>
+<td>
+
+![image](https://github.com/MADElinessss/MediaProject/assets/88757043/54ac44d5-16ec-4f8a-8fc2-4f08873c5b38)
+
+
+</td>
+</tr>
+</table>
+
