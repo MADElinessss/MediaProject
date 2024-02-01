@@ -19,6 +19,9 @@ class APIManager {
     
     let baseURL = "https://api.themoviedb.org/3/"
     
+    
+    
+    
     func fetchTrendingTV(completionHandler: @escaping (([TV]) -> Void)) {
         let url = baseURL + "trending/tv/week?language=ko-KR"
     
@@ -33,32 +36,43 @@ class APIManager {
         }
     }
     
-    func fetchTopRatedTV(completionHandler: @escaping ((RatingTV) -> Void)) {
-        let url = baseURL + "movie/top_rated?language=ko-KR"
-        
-        AF.request(url, method: .get, headers: header).responseDecodable(of: RatingTV.self) { response in
+    func fetchRatingPopularTV(api: TMDBAPI, completionHandler: @escaping ((RatingPopularTV) -> Void)) {
+        AF.request(api.endPoint, method: api.method, encoding: URLEncoding(destination: .queryString), headers: api.header).responseDecodable(of: RatingPopularTV.self) { response in
             switch response.result {
             case .success(let success):
                 completionHandler(success)
             case .failure(let failure):
                 print(failure)
             }
-            
         }
     }
     
-    func fetchPopularTV(completionHandler: @escaping ((PopularTV) -> Void)) {
-        let url = baseURL + "tv/popular?language=ko-KR"
-        
-        AF.request(url, method: .get, headers: header).responseDecodable(of: PopularTV.self) { response in
-            switch response.result {
-            case .success(let success):
-                completionHandler(success)
-            case .failure(let failure):
-                print(failure)
-            }
-        }
-    }
+//    func fetchTopRatedTV(completionHandler: @escaping ((RatingPopularTV) -> Void)) {
+//        let url = baseURL + "movie/top_rated?language=ko-KR"
+//        
+//        AF.request(url, method: .get, headers: header).responseDecodable(of: RatingPopularTV.self) { response in
+//            switch response.result {
+//            case .success(let success):
+//                completionHandler(success)
+//            case .failure(let failure):
+//                print(failure)
+//            }
+//            
+//        }
+//    }
+//    
+//    func fetchPopularTV(completionHandler: @escaping ((RatingPopularTV) -> Void)) {
+//        let url = baseURL + "tv/popular?language=ko-KR"
+//        
+//        AF.request(url, method: .get, headers: header).responseDecodable(of: RatingPopularTV.self) { response in
+//            switch response.result {
+//            case .success(let success):
+//                completionHandler(success)
+//            case .failure(let failure):
+//                print(failure)
+//            }
+//        }
+//    }
     
     func fetchTVSeries(_ id: Int, completionHandler: @escaping ((TVSeries) -> Void)) {
         

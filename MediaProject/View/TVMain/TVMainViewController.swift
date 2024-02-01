@@ -18,15 +18,15 @@ class TVMainViewController: UIViewController {
     
     var trendingList : [TV] = []
     
-    var ratingList : [RatingTV] = [
-        RatingTV(results: []),
-        RatingTV(results: []),
-        RatingTV(results: [])
+    var ratingList : [RatingPopularTV] = [
+        RatingPopularTV(results: []),
+        RatingPopularTV(results: []),
+        RatingPopularTV(results: [])
     ]
-    var popularList : [PopularTV] = [
-        PopularTV(results: []),
-        PopularTV(results: []),
-        PopularTV(results: [])
+    var popularList : [RatingPopularTV] = [
+        RatingPopularTV(results: []),
+        RatingPopularTV(results: []),
+        RatingPopularTV(results: [])
     ]
     
     override func viewDidLoad() {
@@ -42,12 +42,12 @@ class TVMainViewController: UIViewController {
             self.collectionView.reloadData()
         }
         
-        APIManager.shared.fetchTopRatedTV { tv in
+        APIManager.shared.fetchRatingPopularTV(api: .rating) { tv in
             self.ratingList[0] = tv
             self.tableView.reloadData()
         }
         
-        APIManager.shared.fetchPopularTV { tv in
+        APIManager.shared.fetchRatingPopularTV(api: .popular) { tv in
             self.popularList[0] = tv
             self.tableView.reloadData()
         }
@@ -197,8 +197,12 @@ extension TVMainViewController: UICollectionViewDelegate, UICollectionViewDataSo
             
             if collectionView.tag == 0 {
                 let result = ratingList[0].results[indexPath.item]
-                let url = URL(string: "https://image.tmdb.org/t/p/w300/\(result.posterPath)")
-                cell.posterImageView.kf.setImage(with: url)
+                if let posterPath = result.posterPath {
+                    let url = URL(string: "https://image.tmdb.org/t/p/w300/\(posterPath)")
+                    cell.posterImageView.kf.setImage(with: url)
+                } else {
+                    cell.posterImageView.image = UIImage(named: "default")
+                }
                 
             } else if collectionView.tag == 1 {
                 let result = popularList[0].results[indexPath.item]

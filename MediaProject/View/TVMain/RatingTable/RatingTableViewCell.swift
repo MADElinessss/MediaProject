@@ -9,7 +9,7 @@ import UIKit
 
 class RatingTableViewCell: UITableViewCell {
     
-    var list: [RatingTVResults] = []
+    var list: [RatingPopularTV] = []
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionLayout())
     
