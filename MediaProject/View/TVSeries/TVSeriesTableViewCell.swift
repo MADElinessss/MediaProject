@@ -10,6 +10,7 @@ import UIKit
 class TVSeriesTableViewCell: UITableViewCell {
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionLayout())
+    var recommendations: [RecommendationResult] = []
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,5 +48,30 @@ class TVSeriesTableViewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         
         return layout
+    }
+}
+
+extension TVSeriesTableViewCell {
+    func configure(with recommendations: [RecommendationResult]) {
+        // 컬렉션 뷰 대리자 및 데이터 소스 설정
+        collectionView.delegate = self
+        collectionView.dataSource = self
+
+        // 컬렉션 뷰에 데이터 전달
+        collectionView.reloadData()
+    }
+}
+
+extension TVSeriesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return recommendations.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TVSeriesCollectionViewCell", for: indexPath) as! TVSeriesCollectionViewCell
+        let recommendation = recommendations[indexPath.item]
+        let url = URL(string: "https://image.tmdb.org/t/p/w300/\(recommendation.posterPath)")
+        cell.posterImageView.kf.setImage(with: url)
+        return cell
     }
 }

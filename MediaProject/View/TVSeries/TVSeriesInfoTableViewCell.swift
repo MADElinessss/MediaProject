@@ -16,6 +16,7 @@ class TVSeriesInfoTableViewCell: UITableViewCell {
         
         configureHierarchy()
         configureLayout()
+        configureView()
     }
     
     required init?(coder: NSCoder) {
@@ -29,20 +30,33 @@ class TVSeriesInfoTableViewCell: UITableViewCell {
 
     func configureLayout() {
         tvImageView.snp.makeConstraints { make in
-            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(16)
-            make.leading.equalTo(contentView.safeAreaLayoutGuide).inset(16)
-            make.height.equalTo(150)
-            make.width.equalTo(150)
+            make.top.equalTo(contentView.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide)
+            make.height.equalTo(300)
+//            make.width.equalTo(150)
         }
 
         tvNameLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(tvImageView)
-            make.leading.equalTo(tvImageView.snp.trailing).offset(16)
-            make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(16)
+            //            make.centerY.equalTo(tvImageView)
+            make.bottom.equalTo(tvImageView.snp.bottom).inset(16)
+            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).offset(16)
         }
-
+    }
+    
+    func configureView() {
+        
+        print("###TVSeriesInfoTableViewCell###")
+        contentView.backgroundColor = .black
+        
+        tvImageView.image = UIImage(systemName: "person")
+        
+        tvNameLabel.text = "NAME"
         tvNameLabel.textColor = .white
         tvNameLabel.font = .systemFont(ofSize: 20, weight: .bold)
         tvNameLabel.numberOfLines = 2
     }
+}
+
+#Preview {
+    TVSeriesInfoTableViewCell()
 }

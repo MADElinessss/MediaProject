@@ -74,4 +74,16 @@ class APIManager {
         }
     }
     
+    func fetchRecommendation(_ id: Int, completionHandler: @escaping ((Recommendation) -> Void)) {
+        let url = baseURL + "tv/\(id)/recommendations?language=ko-KR"
+        
+        AF.request(url, method: .get, headers: header).responseDecodable(of: Recommendation.self) { response in
+            switch response.result {
+            case .success(let success):
+                completionHandler(success)
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
 }
