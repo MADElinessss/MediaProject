@@ -17,6 +17,7 @@ class TVSeriesCollectionViewCell: UICollectionViewCell {
         configurePosterImageView()
         
         contentView.addSubview(posterImageView)
+        
         posterImageView.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }

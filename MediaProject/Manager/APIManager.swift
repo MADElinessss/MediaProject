@@ -86,4 +86,17 @@ class APIManager {
             }
         }
     }
+    
+    func fetchCast(_ id: Int, completionHandler: @escaping ((Cast) -> Void)) {
+        let url = baseURL + "tv/\(id)/aggregate_credits"
+        
+        AF.request(url, method: .get, headers: header).responseDecodable(of: Cast.self) { response in
+            switch response.result {
+            case .success(let success):
+                completionHandler(success)
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
 }

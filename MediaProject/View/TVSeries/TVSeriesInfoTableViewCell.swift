@@ -10,6 +10,8 @@ import UIKit
 class TVSeriesInfoTableViewCell: UITableViewCell {
     let tvImageView = UIImageView()
     let tvNameLabel = UILabel()
+    
+    var series: TVSeries?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -17,6 +19,7 @@ class TVSeriesInfoTableViewCell: UITableViewCell {
         configureHierarchy()
         configureLayout()
         configureView()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -31,29 +34,27 @@ class TVSeriesInfoTableViewCell: UITableViewCell {
     func configureLayout() {
         tvImageView.snp.makeConstraints { make in
             make.top.equalTo(contentView.safeAreaLayoutGuide)
-            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide)
-            make.height.equalTo(300)
-//            make.width.equalTo(150)
+            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(24)
+            make.height.equalTo(UIScreen.main.bounds.height * 0.5)
         }
 
         tvNameLabel.snp.makeConstraints { make in
-            //            make.centerY.equalTo(tvImageView)
             make.bottom.equalTo(tvImageView.snp.bottom).inset(16)
-            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).offset(16)
+            make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(24)
+            make.height.equalTo(44)
         }
     }
     
     func configureView() {
-        
-        print("###TVSeriesInfoTableViewCell###")
         contentView.backgroundColor = .black
-        
-        tvImageView.image = UIImage(systemName: "person")
-        
-        tvNameLabel.text = "NAME"
+
         tvNameLabel.textColor = .white
-        tvNameLabel.font = .systemFont(ofSize: 20, weight: .bold)
+        tvNameLabel.font = .systemFont(ofSize: 18, weight: .bold)
         tvNameLabel.numberOfLines = 2
+        
+        tvImageView.clipsToBounds = true
+        tvImageView.layer.cornerRadius = 20
+        
     }
 }
 

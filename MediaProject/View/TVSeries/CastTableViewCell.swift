@@ -1,16 +1,19 @@
 //
-//  TVSeriesTableViewCell.swift
+//  CastTableViewCell.swift
 //  MediaProject
 //
-//  Created by Madeline on 1/31/24.
+//  Created by Madeline on 2/1/24.
 //
 
+import Kingfisher
+import SnapKit
 import UIKit
 
-class TVSeriesTableViewCell: UITableViewCell {
+class CastTableViewCell: UITableViewCell {
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionLayout())
-    var recommendations: [RecommendationResult] = []
+    
+    var castList: [Actors] = []
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -18,6 +21,8 @@ class TVSeriesTableViewCell: UITableViewCell {
         configureHierarchy()
         configureLayout()
         configureView()
+        
+        print("CastTableViewCell init")
     }
     
     required init?(coder: NSCoder) {
@@ -29,17 +34,18 @@ class TVSeriesTableViewCell: UITableViewCell {
     }
     
     func configureLayout() {
+        
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(contentView.safeAreaLayoutGuide)
         }
     }
-
+    
     func configureView() {
         collectionView.backgroundColor = .black
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(TVSeriesCollectionViewCell.self, forCellWithReuseIdentifier: "TVSeriesCollectionViewCell")
+        collectionView.register(CastCollectionViewCell.self, forCellWithReuseIdentifier: "CastCollectionViewCell")
         collectionView.reloadData()
     }
     
@@ -56,19 +62,22 @@ class TVSeriesTableViewCell: UITableViewCell {
     }
 }
 
-extension TVSeriesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension CastTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("2")
-        return recommendations.count
+        return castList.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("3")
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TVSeriesCollectionViewCell", for: indexPath) as! TVSeriesCollectionViewCell
-        let recommendation = recommendations[indexPath.item]
-        let url = URL(string: "https://image.tmdb.org/t/p/w300/\(recommendation.posterPath)")
-        print(url)
-        cell.posterImageView.kf.setImage(with: url)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CastCollectionViewCell", for: indexPath) as! CastCollectionViewCell
+        
+        let cast = castList[indexPath.item]
+        cell.name.text = cast.name
+        if let profile = cast.profilePath {
+            let url = URL(string: "https://image.tmdb.org/t/p/w300/\(cast.profilePath ?? "")")
+            cell.profileImage.kf.setImage(with: url)
+        } else {
+            cell.profileImage.image = UIImage(systemName: "person")
+        }
         return cell
     }
 }

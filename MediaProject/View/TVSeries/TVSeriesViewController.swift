@@ -12,17 +12,13 @@ import UIKit
 class TVSeriesViewController: UIViewController {
     
     let backButton = UIButton()
-    
-//    let tvImageView = UIImageView()
-//    let tvNameLabel = UILabel()
-    
     let tableView = UITableView()
     
-    var series: TVSeries?
+    var series = TVSeries(backdropPath: "", episodeRunTime: [0], id: 0, name: "", posterPath: "")
     var recommendationList: [RecommendationResult] = []
+    var castList: [Actors] = []
     
     var id: Int = 0
-    
     var seriesID: Int
     
     
@@ -38,42 +34,43 @@ class TVSeriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let group = DispatchGroup()
+        group.enter()
+        APIManager.shared.fetchTVSeries(self.seriesID) { tvSeries in
+            self.series = tvSeries
+            group.leave()
+        }
+        
+        group.enter()
+        APIManager.shared.fetchRecommendation(self.seriesID) { recommendation in
+            self.recommendationList = recommendation.results
+            group.leave()
+        }
+        
+        group.enter()
+        APIManager.shared.fetchCast(self.seriesID) { cast in
+            self.castList = cast.crew
+            print(self.castList)
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            self.tableView.reloadData()
+        }
+        
         configureHeirarchy()
         configureLayout()
         configureView()
         setBackgroundColor()
-        
-        let group = DispatchGroup()
-        
-        group.enter()
-        DispatchQueue.global().async(group: group) {
-            APIManager.shared.fetchTVSeries(self.seriesID) { tvSeries in
-                self.series = tvSeries
-            }
-            group.leave()
-        }
-        group.enter()
-        DispatchQueue.global().async(group: group) {
-            APIManager.shared.fetchRecommendation(self.seriesID) { recommendation in
-                self.recommendationList = recommendation.results
-            }
-            group.leave()
-        }
-        tableView.reloadData()
+
     }
     
     @objc func backButtonTapped() {
         self.dismiss(animated: true, completion: nil)
     }
-    
-//    func updateUI() {
-//        
-//    }
-//    
+     
     func configureHeirarchy() {
         view.addSubview(backButton)
-//        view.addSubview(tvImageView)
-//        view.addSubview(tvNameLabel)
         view.addSubview(tableView)
     }
     
@@ -85,34 +82,22 @@ class TVSeriesViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 150
         tableView.register(TVSeriesInfoTableViewCell.self, forCellReuseIdentifier: "TVSeriesInfoTableViewCell")
         tableView.register(TVSeriesTableViewCell.self, forCellReuseIdentifier: "TVSeriesTableViewCell")
+        tableView.register(CastTableViewCell.self, forCellReuseIdentifier: "CastTableViewCell")
         tableView.backgroundColor = .black
         
     }
     
     func configureView() {
         backButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(8)
-            make.leading.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.equalTo(view.safeAreaLayoutGuide).inset(8)
         }
         
-//        tvImageView.snp.makeConstraints { make in
-//            make.top.equalTo(view.safeAreaLayoutGuide).inset(32)
-//            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(32)
-//            make.height.equalTo(UIScreen.main.bounds.height * 0.4)
-//        }
-//        
-//        tvNameLabel.snp.makeConstraints { make in
-//            make.bottom.equalTo(tvImageView.snp.bottom).inset(24)
-//            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(32)
-//        }
-        
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(100)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(UIScreen.main.bounds.height * 0.4)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
@@ -127,19 +112,24 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         if indexPath.section == 0 {
-            print("***TVSeriesViewController***")
             let cell = tableView.dequeueReusableCell(withIdentifier: "TVSeriesInfoTableViewCell", for: indexPath) as! TVSeriesInfoTableViewCell
-            if let series = self.series {
-                let url = URL(string: "https://image.tmdb.org/t/p/w300/\(series.posterPath)")
-                cell.tvImageView.kf.setImage(with: url)
-                cell.tvNameLabel.text = series.name
-            }
+            let url = URL(string: "https://image.tmdb.org/t/p/w300/\(series.posterPath)")
+            cell.tvImageView.kf.setImage(with: url)
+            cell.tvNameLabel.text = series.name
             return cell
+        } else if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CastTableViewCell", for: indexPath) as! CastTableViewCell
+            cell.castList = castList
+            cell.collectionView.reloadData()
+            return cell
+            
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TVSeriesTableViewCell", for: indexPath) as! TVSeriesTableViewCell
-            cell.configure(with: recommendationList)
-            
+            cell.recommendations = recommendationList
+            cell.collectionView.reloadData()
             return cell
         }
     }
@@ -150,5 +140,27 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             return UIScreen.main.bounds.height * 0.25
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .black
+        
+        let headerLabel = UILabel()
+        headerLabel.frame = CGRect(x: 4, y: 0, width: tableView.bounds.size.width, height: 16)
+        headerLabel.textColor = .white
+        headerLabel.font = .systemFont(ofSize: 16, weight: .bold)
+        
+        switch section {
+        case 0:
+            headerLabel.text = ""
+        case 1:
+            headerLabel.text = "캐스트 정보"
+        default:
+            headerLabel.text = "추천 콘텐츠"
+        }
+        
+        headerView.addSubview(headerLabel)
+        return headerView
     }
 }
