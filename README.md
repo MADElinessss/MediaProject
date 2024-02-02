@@ -1,4 +1,4 @@
-## ✅ SeSAC 26, 27일차 Assignment
+## ✅ SeSAC 26, 27, 28, 29일차 Assignment
 
 - TMDB API 3개 사용
     -  컬렉션뷰 - TV Trend API
