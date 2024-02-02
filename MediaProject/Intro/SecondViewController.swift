@@ -52,6 +52,7 @@ class SecondViewController: UIViewController {
     }
     
     @objc func startButtonTapped() {
+        UserDefaults.standard.set(true, forKey: "UserState")
         let vc = TVMainViewController()
         if let navigationController = self.navigationController {
             navigationController.pushViewController(vc, animated: true)
