@@ -50,6 +50,7 @@ class TVSeriesViewController: BaseViewController {
         group.enter()
         APIManager.shared.request(type: Cast.self, api: .cast(id: self.seriesID)) { cast in
             self.castList = cast.crew
+            print(self.castList)
             group.leave()
         }
         
@@ -121,6 +122,7 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "CastTableViewCell", for: indexPath) as! CastTableViewCell
             cell.castList = castList
+            print(castList)
             cell.collectionView.reloadData()
             
             return cell
@@ -128,10 +130,7 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "TVSeriesTableViewCell", for: indexPath) as! TVSeriesTableViewCell
-//            cell.onSeriesSelected = { [weak self] seriesID in
-//                let tvSeriesViewController = TVSeriesViewController(seriesID: seriesID)
-//                self?.navigationController?.pushViewController(tvSeriesViewController, animated: true)
-//            }
+
             cell.delegate = self
             cell.recommendations = recommendationList
             cell.collectionView.reloadData()

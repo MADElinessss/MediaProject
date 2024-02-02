@@ -25,7 +25,7 @@ enum TMDBAPI {
         case .trending:
             return URL(string: baseURL + "trending/tv/week")!
         case .rating:
-            return URL(string: baseURL + "movie/top_rated")!
+            return URL(string: baseURL + "tv/top_rated")!
         case .popular:
             return URL(string: baseURL + "tv/popular")!
         case .cast(let id):

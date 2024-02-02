@@ -173,9 +173,9 @@ extension TVMainViewController: UICollectionViewDelegate, UICollectionViewDataSo
             return trendingList.count
         } else {
             switch collectionView.tag {
-            case 0: // ratingList
+            case 0:
                 return ratingList[0].results.count
-            case 1: // popularList
+            case 1:
                 return popularList[0].results.count
             default:
                 return 0
@@ -204,7 +204,7 @@ extension TVMainViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 
             } else if collectionView.tag == 1 {
                 let result = popularList[0].results[indexPath.item]
-                // result를 사용하여 cell 구성
+                
                 if let posterPath = result.posterPath {
                     let url = URL(string: "https://image.tmdb.org/t/p/w300/\(posterPath)")
                     cell.posterImageView.kf.setImage(with: url)
