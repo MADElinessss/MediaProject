@@ -12,104 +12,17 @@ class APIManager {
     // 싱글톤 인스턴스!
     static let shared = APIManager()
     
-    let header: HTTPHeaders = [
-        "accept": "application/json",
-        "Authorization" : APIKey.TMDBaccessToken
-    ]
-    
-    let baseURL = "https://api.themoviedb.org/3/"
-    
-    
-    
-    
-    func fetchTrendingTV(completionHandler: @escaping (([TV]) -> Void)) {
-        let url = baseURL + "trending/tv/week?language=ko-KR"
-    
-        AF.request(url, method: .get, headers: header).responseDecodable(of: TrendingTV.self) { response in
-            switch response.result {
-            case .success(let success):
-                completionHandler(success.results)
-            case .failure(let failure):
-                print(failure)
-            }
-            
-        }
-    }
-    
-    func fetchRatingPopularTV(api: TMDBAPI, completionHandler: @escaping ((RatingPopularTV) -> Void)) {
-        AF.request(api.endPoint, method: api.method, encoding: URLEncoding(destination: .queryString), headers: api.header).responseDecodable(of: RatingPopularTV.self) { response in
+    func request<T: Decodable>(type: T.Type, api: TMDBAPI, completionHandler: @escaping ((T) -> Void)) {
+        AF.request(api.endPoint, 
+                   method: api.method,
+                   parameters: api.parameter,
+                   encoding: URLEncoding(destination: .queryString),
+                   headers: api.header).responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let success):
                 completionHandler(success)
             case .failure(let failure):
-                print(failure)
-            }
-        }
-    }
-    
-//    func fetchTopRatedTV(completionHandler: @escaping ((RatingPopularTV) -> Void)) {
-//        let url = baseURL + "movie/top_rated?language=ko-KR"
-//        
-//        AF.request(url, method: .get, headers: header).responseDecodable(of: RatingPopularTV.self) { response in
-//            switch response.result {
-//            case .success(let success):
-//                completionHandler(success)
-//            case .failure(let failure):
-//                print(failure)
-//            }
-//            
-//        }
-//    }
-//    
-//    func fetchPopularTV(completionHandler: @escaping ((RatingPopularTV) -> Void)) {
-//        let url = baseURL + "tv/popular?language=ko-KR"
-//        
-//        AF.request(url, method: .get, headers: header).responseDecodable(of: RatingPopularTV.self) { response in
-//            switch response.result {
-//            case .success(let success):
-//                completionHandler(success)
-//            case .failure(let failure):
-//                print(failure)
-//            }
-//        }
-//    }
-    
-    func fetchTVSeries(_ id: Int, completionHandler: @escaping ((TVSeries) -> Void)) {
-        
-        let url = baseURL + "tv/\(id)?language=ko-KR"
-        
-        AF.request(url, method: .get, headers: header).responseDecodable(of: TVSeries.self) { response in
-            switch response.result {
-            case .success(let success):
-                completionHandler(success)
-            case .failure(let failure):
-                print(failure)
-            }
-        }
-    }
-    
-    func fetchRecommendation(_ id: Int, completionHandler: @escaping ((Recommendation) -> Void)) {
-        let url = baseURL + "tv/\(id)/recommendations?language=ko-KR"
-        
-        AF.request(url, method: .get, headers: header).responseDecodable(of: Recommendation.self) { response in
-            switch response.result {
-            case .success(let success):
-                completionHandler(success)
-            case .failure(let failure):
-                print(failure)
-            }
-        }
-    }
-    
-    func fetchCast(_ id: Int, completionHandler: @escaping ((Cast) -> Void)) {
-        let url = baseURL + "tv/\(id)/aggregate_credits"
-        
-        AF.request(url, method: .get, headers: header).responseDecodable(of: Cast.self) { response in
-            switch response.result {
-            case .success(let success):
-                completionHandler(success)
-            case .failure(let failure):
-                print(failure)
+                print(T.self, failure)
             }
         }
     }

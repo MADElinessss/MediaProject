@@ -36,21 +36,20 @@ class TVSeriesViewController: UIViewController {
         
         let group = DispatchGroup()
         group.enter()
-        APIManager.shared.fetchTVSeries(self.seriesID) { tvSeries in
+        APIManager.shared.request(type: TVSeries.self, api: .tvSeries(id: self.seriesID)) { tvSeries in
             self.series = tvSeries
             group.leave()
         }
         
         group.enter()
-        APIManager.shared.fetchRecommendation(self.seriesID) { recommendation in
+        APIManager.shared.request(type: Recommendation.self, api: .recommendation(id: self.seriesID)) { recommendation in
             self.recommendationList = recommendation.results
             group.leave()
         }
         
         group.enter()
-        APIManager.shared.fetchCast(self.seriesID) { cast in
+        APIManager.shared.request(type: Cast.self, api: .cast(id: self.seriesID)) { cast in
             self.castList = cast.crew
-            print(self.castList)
             group.leave()
         }
         

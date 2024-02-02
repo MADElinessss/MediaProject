@@ -12,7 +12,7 @@ enum TMDBAPI {
     case trending
     case rating
     case popular
-    case tvSeries(id: String)
+    case tvSeries(id: Int)
     case cast(id: Int)
     case recommendation(id: Int)
     
@@ -23,17 +23,17 @@ enum TMDBAPI {
     var endPoint: URL {
         switch self {
         case .trending:
-            return URL(string: baseURL + "trending/tv/week?language=ko-KR")!
+            return URL(string: baseURL + "trending/tv/week")!
         case .rating:
-            return URL(string: baseURL + "movie/top_rated?language=ko-KR")!
+            return URL(string: baseURL + "movie/top_rated")!
         case .popular:
-            return URL(string: baseURL + "tv/popular?language=ko-KR")!
+            return URL(string: baseURL + "tv/popular")!
         case .cast(let id):
             return URL(string: baseURL + "tv/\(id)/aggregate_credits")!
         case .tvSeries(let id):
-            return URL(string: baseURL + "tv/\(id)?language=ko-KR")!
+            return URL(string: baseURL + "tv/\(id)")!
         case .recommendation(let id):
-            return URL(string: baseURL + "tv/\(id)/recommendations?language=ko-KR")!
+            return URL(string: baseURL + "tv/\(id)/recommendations")!
         }
     }
     
@@ -45,20 +45,20 @@ enum TMDBAPI {
         return .get
     }
     
-//    var parameter: Parameters {
-//        switch self {
-//        case .trending:
-//            ["":""]
-//        case .rating:
-//            ["":""]
-//        case .popular:
-//            ["":""]
-//        case .tvSeries(let id):
-//            ["":""]
-//        case .cast(let id):
-//            ["":""]
-//        case .recommendation(let id):
-//            ["":""]
-//        }
-//    }
+    var parameter: Parameters {
+        switch self {
+        case .trending:
+            ["language":"ko-KR"]
+        case .rating:
+            ["language":"ko-KR"]
+        case .popular:
+            ["language":"ko-KR"]
+        case .tvSeries:
+            ["language":"ko-KR"]
+        case .cast:
+            ["":""]
+        case .recommendation:
+            ["language":"ko-KR"]
+        }
+    }
 }

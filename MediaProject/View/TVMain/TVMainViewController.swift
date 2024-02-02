@@ -23,6 +23,7 @@ class TVMainViewController: UIViewController {
         RatingPopularTV(results: []),
         RatingPopularTV(results: [])
     ]
+    
     var popularList : [RatingPopularTV] = [
         RatingPopularTV(results: []),
         RatingPopularTV(results: []),
@@ -37,17 +38,19 @@ class TVMainViewController: UIViewController {
         configureView()
         setBackgroundColor()
         
-        APIManager.shared.fetchTrendingTV { tv in
-            self.trendingList = tv
-            self.collectionView.reloadData()
+        APIManager.shared.request(type: TrendingTV.self, api: .trending) { response in
+            self.trendingList = response.results
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
         }
-        
-        APIManager.shared.fetchRatingPopularTV(api: .rating) { tv in
+
+        APIManager.shared.request(type: RatingPopularTV.self, api: .rating) { tv in
             self.ratingList[0] = tv
             self.tableView.reloadData()
         }
-        
-        APIManager.shared.fetchRatingPopularTV(api: .popular) { tv in
+
+        APIManager.shared.request(type: RatingPopularTV.self, api: .popular) { tv in
             self.popularList[0] = tv
             self.tableView.reloadData()
         }
