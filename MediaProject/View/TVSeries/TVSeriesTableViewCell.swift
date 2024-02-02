@@ -9,7 +9,8 @@ import UIKit
 
 class TVSeriesTableViewCell: UITableViewCell {
     
-    var onSeriesSelected: ((Int) -> Void)?
+    weak var delegate: TVSeriesTableViewCellDelegate?
+//    var onSeriesSelected: ((Int) -> Void)?
     
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionLayout())
     var recommendations: [RecommendationResult] = []
@@ -76,12 +77,8 @@ extension TVSeriesTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
         
         let seriesID: Int
         seriesID = recommendations[indexPath.item].id
-        onSeriesSelected?(seriesID)
-        print(seriesID)
+
+        delegate?.didSelectSeries(withID: seriesID)
         
-        // 셀에서 이벤트 처리 바로 안됨
-//        let tvSeriesViewController = TVSeriesViewController(seriesID: seriesID)
-//        tvSeriesViewController.modalPresentationStyle = .fullScreen
-//        present(tvSeriesViewController, animated: true)
     }
 }

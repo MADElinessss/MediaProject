@@ -128,11 +128,11 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "TVSeriesTableViewCell", for: indexPath) as! TVSeriesTableViewCell
-            cell.onSeriesSelected = { [weak self] seriesID in
-                let tvSeriesViewController = TVSeriesViewController(seriesID: seriesID)
-                self?.navigationController?.pushViewController(tvSeriesViewController, animated: true)
-            }
-            
+//            cell.onSeriesSelected = { [weak self] seriesID in
+//                let tvSeriesViewController = TVSeriesViewController(seriesID: seriesID)
+//                self?.navigationController?.pushViewController(tvSeriesViewController, animated: true)
+//            }
+            cell.delegate = self
             cell.recommendations = recommendationList
             cell.collectionView.reloadData()
             
@@ -168,5 +168,13 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
         
         headerView.addSubview(headerLabel)
         return headerView
+    }
+}
+
+extension TVSeriesViewController: TVSeriesTableViewCellDelegate {
+    func didSelectSeries(withID seriesID: Int) {
+        let tvSeriesViewController = TVSeriesViewController(seriesID: seriesID)
+        tvSeriesViewController.modalPresentationStyle = .fullScreen
+        present(tvSeriesViewController, animated: true)
     }
 }
