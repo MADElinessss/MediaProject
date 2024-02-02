@@ -58,16 +58,13 @@ class TVSeriesTableViewCell: UITableViewCell {
 
 extension TVSeriesTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("2")
         return recommendations.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("3")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TVSeriesCollectionViewCell", for: indexPath) as! TVSeriesCollectionViewCell
         let recommendation = recommendations[indexPath.item]
         let url = URL(string: "https://image.tmdb.org/t/p/w300/\(recommendation.posterPath)")
-        print(url)
         cell.posterImageView.kf.setImage(with: url)
         return cell
     }

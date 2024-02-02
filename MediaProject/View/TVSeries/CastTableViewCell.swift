@@ -22,7 +22,6 @@ class CastTableViewCell: UITableViewCell {
         configureLayout()
         configureView()
         
-        print("CastTableViewCell init")
     }
     
     required init?(coder: NSCoder) {

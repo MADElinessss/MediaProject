@@ -31,7 +31,6 @@ class CastCollectionViewCell: UICollectionViewCell {
             make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide)
         }
         
-        print("CastCollectionViewCell init")
     }
     
     private func configurePosterImageView() {
