@@ -9,6 +9,8 @@ import UIKit
 
 class TVSeriesTableViewCell: UITableViewCell {
     
+    var onSeriesSelected: ((Int) -> Void)?
+    
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCollectionLayout())
     var recommendations: [RecommendationResult] = []
 
@@ -63,9 +65,23 @@ extension TVSeriesTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TVSeriesCollectionViewCell", for: indexPath) as! TVSeriesCollectionViewCell
+    
         let recommendation = recommendations[indexPath.item]
         let url = URL(string: "https://image.tmdb.org/t/p/w300/\(recommendation.posterPath)")
         cell.posterImageView.kf.setImage(with: url)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let seriesID: Int
+        seriesID = recommendations[indexPath.item].id
+        onSeriesSelected?(seriesID)
+        print(seriesID)
+        
+        // 셀에서 이벤트 처리 바로 안됨
+//        let tvSeriesViewController = TVSeriesViewController(seriesID: seriesID)
+//        tvSeriesViewController.modalPresentationStyle = .fullScreen
+//        present(tvSeriesViewController, animated: true)
     }
 }

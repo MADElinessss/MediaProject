@@ -19,7 +19,7 @@ class TVSeriesViewController: BaseViewController {
     var castList: [Actors] = []
     
     var id: Int = 0
-    var seriesID: Int
+    var seriesID: Int = 0
     
     
     init(seriesID: Int) {
@@ -108,22 +108,34 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "TVSeriesInfoTableViewCell", for: indexPath) as! TVSeriesInfoTableViewCell
             let url = URL(string: "https://image.tmdb.org/t/p/w300/\(series.posterPath)")
+            
             cell.tvImageView.kf.setImage(with: url)
             cell.tvNameLabel.text = series.name
+            
             return cell
+            
         } else if indexPath.section == 1 {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "CastTableViewCell", for: indexPath) as! CastTableViewCell
             cell.castList = castList
             cell.collectionView.reloadData()
+            
             return cell
             
-            
         } else {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "TVSeriesTableViewCell", for: indexPath) as! TVSeriesTableViewCell
+            cell.onSeriesSelected = { [weak self] seriesID in
+                let tvSeriesViewController = TVSeriesViewController(seriesID: seriesID)
+                self?.navigationController?.pushViewController(tvSeriesViewController, animated: true)
+            }
+            
             cell.recommendations = recommendationList
             cell.collectionView.reloadData()
+            
             return cell
         }
     }

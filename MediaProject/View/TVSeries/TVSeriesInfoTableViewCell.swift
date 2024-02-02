@@ -57,7 +57,3 @@ class TVSeriesInfoTableViewCell: UITableViewCell {
         
     }
 }
-
-#Preview {
-    TVSeriesInfoTableViewCell()
-}

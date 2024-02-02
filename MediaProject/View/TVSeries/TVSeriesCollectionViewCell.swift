@@ -11,6 +11,8 @@ class TVSeriesCollectionViewCell: UICollectionViewCell {
     
     let posterImageView = UIImageView()
     
+    var seriesID: Int = 0
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
