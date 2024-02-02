@@ -9,7 +9,7 @@ import Kingfisher
 import SnapKit
 import UIKit
 
-class TVSeriesViewController: UIViewController {
+class TVSeriesViewController: BaseViewController {
     
     let backButton = UIButton()
     let tableView = UITableView()
@@ -57,23 +57,18 @@ class TVSeriesViewController: UIViewController {
             self.tableView.reloadData()
         }
         
-        configureHeirarchy()
-        configureLayout()
-        configureView()
-        setBackgroundColor()
-
     }
     
     @objc func backButtonTapped() {
         self.dismiss(animated: true, completion: nil)
     }
      
-    func configureHeirarchy() {
+    override func configureHeirarchy() {
         view.addSubview(backButton)
         view.addSubview(tableView)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         
         backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         backButton.setTitleColor(.white, for: .normal)
@@ -88,7 +83,7 @@ class TVSeriesViewController: UIViewController {
         
     }
     
-    func configureView() {
+    override func configureView() {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalTo(view.safeAreaLayoutGuide).inset(8)

@@ -9,7 +9,7 @@ import Kingfisher
 import SnapKit
 import UIKit
 
-class TVMainViewController: UIViewController {
+class TVMainViewController: BaseViewController {
     
     let logoImageView = UIImageView()
     let titleLabel = UILabel()
@@ -33,11 +33,6 @@ class TVMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureHeirarchy()
-        configureLayout()
-        configureView()
-        setBackgroundColor()
-        
         APIManager.shared.request(type: TrendingTV.self, api: .trending) { response in
             self.trendingList = response.results
             DispatchQueue.main.async {
@@ -56,14 +51,14 @@ class TVMainViewController: UIViewController {
         }
     }
     
-    func configureHeirarchy() {
+    override func configureHeirarchy() {
         view.addSubview(logoImageView)
         view.addSubview(titleLabel)
         view.addSubview(collectionView)
         view.addSubview(tableView)
     }
     
-    func configureLayout() {
+    override func configureLayout() {
         
         logoImageView.image = UIImage(named: "logo")
         
@@ -85,7 +80,7 @@ class TVMainViewController: UIViewController {
         
     }
     
-    func configureView() {
+    override func configureView() {
         logoImageView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalTo(view.safeAreaLayoutGuide).inset(16)
