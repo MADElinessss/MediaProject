@@ -62,3 +62,21 @@
 
 - [x] URLSession으로 리팩토링
 - [x] URLSession + 제네릭 리팩토링
+- 기존 UI, 내용 보완
+
+<table>
+<tr>
+<td>
+    
+ ![Simulator Screenshot - iPhone 15 Pro - 2024-02-05 at 17 57 25](https://github.com/MADElinessss/MediaProject/assets/88757043/1121b881-4801-40a2-85dd-2c46f403a896)
+
+
+</td>
+<td>
+
+![Simulator Screenshot - iPhone 15 Pro - 2024-02-05 at 17 57 39](https://github.com/MADElinessss/MediaProject/assets/88757043/f2ddc369-b142-410b-ad7a-44f0969c2394)
+
+
+</td>
+</tr>
+</table>
