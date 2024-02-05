@@ -13,10 +13,10 @@ struct Recommendation: Decodable {
 
 // MARK: - Result
 struct RecommendationResult: Decodable {
-    let backdropPath: String
+    let backdropPath: String?
     let id: Int
     let name, overview: String
-    let posterPath: String
+    let posterPath: String?
 
     enum CodingKeys: String, CodingKey {
         case backdropPath = "backdrop_path"

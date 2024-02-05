@@ -8,11 +8,11 @@
 import Foundation
 
 struct TVSeries: Codable {
-    let backdropPath: String
+    let backdropPath: String?
     let episodeRunTime: [Int]
     let id: Int
     let name: String
-    let posterPath: String
+    let posterPath: String?
     
     enum CodingKeys: String, CodingKey {
         case backdropPath = "backdrop_path"

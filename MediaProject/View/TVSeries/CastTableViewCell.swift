@@ -72,7 +72,7 @@ extension CastTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         let cast = castList[indexPath.item]
         cell.name.text = cast.name
         if let profile = cast.profilePath {
-            let url = URL(string: "https://image.tmdb.org/t/p/w300/\(cast.profilePath ?? "")")
+            let url = URL(string: "https://image.tmdb.org/t/p/w300/\(profile)")
             cell.profileImage.kf.setImage(with: url)
         } else {
             cell.profileImage.image = UIImage(systemName: "person")

@@ -5,6 +5,7 @@
 //  Created by Madeline on 1/31/24.
 //
 
+import Kingfisher
 import UIKit
 
 class TVSeriesTableViewCell: UITableViewCell {
@@ -68,8 +69,13 @@ extension TVSeriesTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TVSeriesCollectionViewCell", for: indexPath) as! TVSeriesCollectionViewCell
     
         let recommendation = recommendations[indexPath.item]
-        let url = URL(string: "https://image.tmdb.org/t/p/w300/\(recommendation.posterPath)")
-        cell.posterImageView.kf.setImage(with: url)
+        if let url = recommendation.posterPath {
+            let fullUrl = URL(string: "https://image.tmdb.org/t/p/w300/\(url)")
+            cell.posterImageView.kf.setImage(with: fullUrl)
+        } else {
+            cell.posterImageView.image = UIImage(systemName: "movieclapper")
+        }
+        
         return cell
     }
     

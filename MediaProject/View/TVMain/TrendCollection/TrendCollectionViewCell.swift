@@ -29,7 +29,6 @@ class TrendCollectionViewCell: UICollectionViewCell {
     
     func configureLayout() {
         posterImageView.snp.makeConstraints { make in
-//            make.edges.equalTo(contentView.safeAreaLayoutGuide)
             make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(24)
             make.height.equalTo(UIScreen.main.bounds.height * 0.5)
         }
@@ -54,7 +53,6 @@ class TrendCollectionViewCell: UICollectionViewCell {
         titleLabel.textColor = .white
     }
     
-    // 스토리보드로 초기화
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

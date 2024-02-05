@@ -111,9 +111,13 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "TVSeriesInfoTableViewCell", for: indexPath) as! TVSeriesInfoTableViewCell
-            let url = URL(string: "https://image.tmdb.org/t/p/w300/\(series.posterPath)")
+            if let url = series.posterPath {
+                let fullUrl = URL(string: "https://image.tmdb.org/t/p/w300/\(url)")
+                cell.tvImageView.kf.setImage(with: fullUrl)
+            } else {
+                cell.tvImageView.image = UIImage(systemName: "movieclapper")
+            }
             
-            cell.tvImageView.kf.setImage(with: url)
             cell.tvNameLabel.text = series.name
             
             return cell
