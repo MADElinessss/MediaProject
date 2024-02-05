@@ -20,10 +20,12 @@ class APISessionManager {
     
     private init() { }
     
-    func fetchTV<T: Decodable>(type: T.Type, completionHandler: @escaping ((T?, TMDBError?) -> Void)) {
-        var url: URLRequest = URLRequest(url: TMDBAPI.trending.endPoint)
-        url.addValue(APIKey.TMDBaccessToken, forHTTPHeaderField: "Authorization")
-        URLSession.shared.dataTask(with: url) { data, response, error in
+    func fetchTV<T: Decodable>(type: T.Type, api: TMDBAPI, url: URL, completionHandler: @escaping ((T?, TMDBError?) -> Void)) {
+
+        var fullUrl: URLRequest = URLRequest(url: url)
+        fullUrl.addValue(APIKey.TMDBaccessToken, forHTTPHeaderField: "Authorization")
+        
+        URLSession.shared.dataTask(with: fullUrl) { data, response, error in
             DispatchQueue.main.async() {
                 guard error == nil else {
                     completionHandler(nil, .failedRequest)
@@ -47,6 +49,7 @@ class APISessionManager {
                 do {
                     let result = try JSONDecoder().decode(T.self, from: data)
                     completionHandler(result, nil)
+//                    print(result)
                 } catch {
                     completionHandler(nil, .wrongData)
                 }

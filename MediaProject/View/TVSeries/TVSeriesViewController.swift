@@ -36,8 +36,8 @@ class TVSeriesViewController: BaseViewController {
         
         let group = DispatchGroup()
         group.enter()
-        APISessionManager.shared.fetchTV(type: TVSeries.self) { tv, error in
-            if error != nil {
+        APISessionManager.shared.fetchTV(type: TVSeries.self, api: .tvSeries(id: seriesID), url: TMDBAPI.tvSeries(id: seriesID).endPoint) { tv, error in
+            if error == nil {
                 guard let tvSeries = tv else { return }
                 self.series = tvSeries
             } else {
@@ -47,8 +47,8 @@ class TVSeriesViewController: BaseViewController {
         }
         
         group.enter()
-        APISessionManager.shared.fetchTV(type: Recommendation.self) { tv, error in
-            if error != nil {
+        APISessionManager.shared.fetchTV(type: Recommendation.self, api: .recommendation(id: seriesID), url: TMDBAPI.recommendation(id: seriesID).endPoint) { tv, error in
+            if error == nil {
                 guard let recommendation = tv else { return }
                 self.recommendationList = recommendation.results
             } else {
@@ -58,8 +58,8 @@ class TVSeriesViewController: BaseViewController {
         }
         
         group.enter()
-        APISessionManager.shared.fetchTV(type: Cast.self) { tv, error in
-            if error != nil {
+        APISessionManager.shared.fetchTV(type: Cast.self, api: .cast(id: seriesID), url: TMDBAPI.cast(id: seriesID).endPoint) { tv, error in
+            if error == nil {
                 guard let cast = tv else { return }
                 self.castList = cast.crew
             } else {

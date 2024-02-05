@@ -33,21 +33,28 @@ class TVMainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        APIManager.shared.request(type: TrendingTV.self, api: .trending) { response in
-            self.trendingList = response.results
-            DispatchQueue.main.async {
+        APISessionManager.shared.fetchTV(type: TrendingTV.self, api: .trending, url: TMDBAPI.trending.endPoint) { tv, error in
+            if error == nil {
+                guard let tv = tv else { return }
+                self.trendingList = tv.results
                 self.collectionView.reloadData()
             }
         }
 
-        APIManager.shared.request(type: RatingPopularTV.self, api: .rating) { tv in
-            self.ratingList[0] = tv
-            self.tableView.reloadData()
+        APISessionManager.shared.fetchTV(type: RatingPopularTV.self, api: .rating, url: TMDBAPI.rating.endPoint) { tv, error in
+            if error == nil {
+                guard let tv = tv else { return }
+                self.ratingList[0] = tv
+                self.tableView.reloadData()
+            }
         }
 
-        APIManager.shared.request(type: RatingPopularTV.self, api: .popular) { tv in
-            self.popularList[0] = tv
-            self.tableView.reloadData()
+        APISessionManager.shared.fetchTV(type: RatingPopularTV.self, api: .popular, url: TMDBAPI.popular.endPoint) { tv, error in
+            if error == nil {
+                guard let tv = tv else { return }
+                self.popularList[0] = tv
+                self.tableView.reloadData()
+            }
         }
     }
     
