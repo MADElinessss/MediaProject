@@ -14,7 +14,7 @@ class TVSeriesViewController: BaseViewController {
     let backButton = UIButton()
     let tableView = UITableView()
     
-    var series = TVSeries(backdropPath: "", episodeRunTime: [0], id: 0, name: "", posterPath: "")
+    var series = TVSeries(adult: false, backdropPath: "", episodeRunTime: [0], id: 0, name: "", overview: "", posterPath: "")
     var recommendationList: [RecommendationResult] = []
     var castList: [Actors] = []
     
@@ -104,7 +104,7 @@ class TVSeriesViewController: BaseViewController {
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
+            make.top.equalTo(backButton.snp.bottom)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
@@ -124,14 +124,23 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "TVSeriesInfoTableViewCell", for: indexPath) as! TVSeriesInfoTableViewCell
-            if let url = series.posterPath {
+            if let url = series.backdropPath {
                 let fullUrl = URL(string: "https://image.tmdb.org/t/p/w300/\(url)")
                 cell.tvImageView.kf.setImage(with: fullUrl)
             } else {
                 cell.tvImageView.image = UIImage(systemName: "movieclapper")
             }
             
+            if let url = series.posterPath {
+                let fullUrl = URL(string: "https://image.tmdb.org/t/p/w300/\(url)")
+                cell.tvPosterView.kf.setImage(with: fullUrl)
+            } else {
+                cell.tvPosterView.image = UIImage(systemName: "movieclapper")
+            }
+            
             cell.tvNameLabel.text = series.name
+            cell.overView.text = series.overview
+            cell.adult = series.adult
             
             return cell
             
@@ -158,7 +167,9 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return UIScreen.main.bounds.height * 0.5
+            return UIScreen.main.bounds.height * 0.6
+        } else if indexPath.section == 1 {
+            return UIScreen.main.bounds.height * 0.1
         } else {
             return UIScreen.main.bounds.height * 0.25
         }

@@ -23,17 +23,17 @@ enum TMDBAPI {
     var endPoint: URL {
         switch self {
         case .trending:
-            return URL(string: baseURL + "trending/tv/week")!
+            return URL(string: baseURL + "trending/tv/week?language=ko-KR")!
         case .rating:
-            return URL(string: baseURL + "tv/top_rated")!
+            return URL(string: baseURL + "tv/top_rated?language=ko-KR")!
         case .popular:
-            return URL(string: baseURL + "tv/popular")!
+            return URL(string: baseURL + "tv/popular?language=ko-KR")!
         case .cast(let id):
-            return URL(string: baseURL + "tv/\(id)/aggregate_credits")!
+            return URL(string: baseURL + "tv/\(id)/aggregate_credits?language=ko-KR")!
         case .tvSeries(let id):
-            return URL(string: baseURL + "tv/\(id)")!
+            return URL(string: baseURL + "tv/\(id)?language=ko-KR")!
         case .recommendation(let id):
-            return URL(string: baseURL + "tv/\(id)/recommendations")!
+            return URL(string: baseURL + "tv/\(id)/recommendations?language=ko-KR")!
         }
     }
     
