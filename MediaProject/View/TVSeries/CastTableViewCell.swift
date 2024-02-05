@@ -51,9 +51,9 @@ class CastTableViewCell: UITableViewCell {
     static func configureCollectionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         
-        layout.itemSize = CGSize(width: 120, height: 160)
+        layout.itemSize = CGSize(width: 100, height: 120)
         layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 0
+        layout.minimumInteritemSpacing = 8
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.scrollDirection = .horizontal
         
@@ -76,6 +76,7 @@ extension CastTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             cell.profileImage.kf.setImage(with: url)
         } else {
             cell.profileImage.image = UIImage(systemName: "person")
+            cell.profileImage.tintColor = .lightGray
         }
         return cell
     }

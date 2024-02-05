@@ -148,7 +148,6 @@ extension TVSeriesViewController: UITableViewDelegate, UITableViewDataSource {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "CastTableViewCell", for: indexPath) as! CastTableViewCell
             cell.castList = castList
-            print(castList)
             cell.collectionView.reloadData()
             
             return cell

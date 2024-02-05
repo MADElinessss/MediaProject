@@ -22,11 +22,11 @@ class CastCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(name)
         
         profileImage.snp.makeConstraints { make in
-            make.horizontalEdges.top.equalTo(contentView)
-            make.bottom.equalTo(contentView).inset(24)
+            make.horizontalEdges.top.equalTo(contentView).inset(16)
+            make.bottom.equalTo(contentView).inset(32)
         }
         name.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).inset(4)
+            make.top.equalTo(profileImage.snp.bottom).inset(16)
             make.height.equalTo(20)
             make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide)
         }
@@ -34,10 +34,10 @@ class CastCollectionViewCell: UICollectionViewCell {
     }
     
     private func configurePosterImageView() {
-        profileImage.layer.cornerRadius = 20
+        profileImage.layer.cornerRadius = 13
         profileImage.clipsToBounds = true
         
-        name.font = .systemFont(ofSize: 16, weight: .medium)
+        name.font = .systemFont(ofSize: 14, weight: .medium)
         name.textColor = .white
     }
     
