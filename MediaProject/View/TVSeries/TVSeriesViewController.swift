@@ -36,28 +36,41 @@ class TVSeriesViewController: BaseViewController {
         
         let group = DispatchGroup()
         group.enter()
-        APIManager.shared.request(type: TVSeries.self, api: .tvSeries(id: self.seriesID)) { tvSeries in
-            self.series = tvSeries
+        APISessionManager.shared.fetchTV(type: TVSeries.self) { tv, error in
+            if error != nil {
+                guard let tvSeries = tv else { return }
+                self.series = tvSeries
+            } else {
+                
+            }
             group.leave()
         }
         
         group.enter()
-        APIManager.shared.request(type: Recommendation.self, api: .recommendation(id: self.seriesID)) { recommendation in
-            self.recommendationList = recommendation.results
+        APISessionManager.shared.fetchTV(type: Recommendation.self) { tv, error in
+            if error != nil {
+                guard let recommendation = tv else { return }
+                self.recommendationList = recommendation.results
+            } else {
+                
+            }
             group.leave()
         }
         
         group.enter()
-        APIManager.shared.request(type: Cast.self, api: .cast(id: self.seriesID)) { cast in
-            self.castList = cast.crew
-            print(self.castList)
+        APISessionManager.shared.fetchTV(type: Cast.self) { tv, error in
+            if error != nil {
+                guard let cast = tv else { return }
+                self.castList = cast.crew
+            } else {
+                
+            }
             group.leave()
         }
         
         group.notify(queue: .main) {
             self.tableView.reloadData()
         }
-        
     }
     
     @objc func backButtonTapped() {

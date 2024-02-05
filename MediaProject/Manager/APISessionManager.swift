@@ -20,7 +20,7 @@ class APISessionManager {
     
     private init() { }
     
-    func fetchTV<T: Decodable>(completionHandler: @escaping ((T?, TMDBError?) -> Void)) {
+    func fetchTV<T: Decodable>(type: T.Type, completionHandler: @escaping ((T?, TMDBError?) -> Void)) {
         var url: URLRequest = URLRequest(url: TMDBAPI.trending.endPoint)
         url.addValue(APIKey.TMDBaccessToken, forHTTPHeaderField: "Authorization")
         URLSession.shared.dataTask(with: url) { data, response, error in
