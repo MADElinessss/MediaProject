@@ -52,3 +52,13 @@
 </tr>
 </table>
 
+## ✅ SeSAC 28, 29일차 Assignment
+
+- [x] BaseViewController 리팩토링
+- [x] Network + 제네릭 리팩토링
+
+
+## ✅ SeSAC 30일차 Assignment
+
+- [x] URLSession으로 리팩토링
+- [x] URLSession + 제네릭 리팩토링
