@@ -53,14 +53,15 @@ class TVSeriesInfoTableViewCell: UITableViewCell {
         }
         
         playButton.snp.makeConstraints { make in
-            make.centerX.equalTo(contentView)
-            make.top.equalTo(tvImageView.snp.top).inset(UIScreen.main.bounds.height * 0.15)
+            make.centerX.centerY.equalTo(tvImageView)
+//            make.top.equalTo(tvImageView.snp.top).inset(UIScreen.main.bounds.height * 0.15)
+            make.width.height.equalTo(200)
         }
         
         tvNameLabel.snp.makeConstraints { make in
             make.top.equalTo(tvImageView.snp.bottom).inset(-16)
             make.leading.equalTo(contentView.safeAreaLayoutGuide).inset(16)
-            make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(UIScreen.main.bounds.width*0.5)
+            make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(UIScreen.main.bounds.width * 0.5)
         }
         
         tvPosterView.snp.makeConstraints { make in
@@ -95,7 +96,9 @@ class TVSeriesInfoTableViewCell: UITableViewCell {
         contentView.backgroundColor = .black
 
         playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        playButton.contentMode = .scaleToFill
         playButton.tintColor = .white
+        
         
         tvNameLabel.textColor = .white
         tvNameLabel.font = .systemFont(ofSize: 18, weight: .bold)

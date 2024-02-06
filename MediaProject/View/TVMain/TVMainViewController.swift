@@ -10,7 +10,7 @@ import SnapKit
 import UIKit
 
 class TVMainViewController: BaseViewController {
-    
+    static let identifier = "TVMainViewController"
     let logoImageView = UIImageView()
     let titleLabel = UILabel()
     let tableView = UITableView()

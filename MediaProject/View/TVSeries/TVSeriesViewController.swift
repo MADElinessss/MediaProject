@@ -12,6 +12,7 @@ import UIKit
 class TVSeriesViewController: BaseViewController {
     
     let backButton = UIButton()
+    let homeButton = UIButton()
     let tableView = UITableView()
     
     var series = TVSeries(adult: false, backdropPath: "", episodeRunTime: [0], id: 0, name: "", overview: "", posterPath: "")
@@ -76,9 +77,25 @@ class TVSeriesViewController: BaseViewController {
     @objc func backButtonTapped() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func homeButtonTapped() {
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+            UserDefaults.standard.synchronize()
+        }
+        
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        let sceneDelegate = windowScene?.delegate as? SceneDelegate
+        
+//        window?.rootViewController = TVMainViewController()
+//        window?.makeKeyAndVisible()
+        sceneDelegate?.window?.rootViewController = TVMainViewController()
+        sceneDelegate?.window?.makeKeyAndVisible()
+    }
      
     override func configureHeirarchy() {
         view.addSubview(backButton)
+        view.addSubview(homeButton)
         view.addSubview(tableView)
     }
     
@@ -87,6 +104,10 @@ class TVSeriesViewController: BaseViewController {
         backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         backButton.setTitleColor(.white, for: .normal)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        
+        homeButton.setImage(UIImage(systemName: "house"), for: .normal)
+        homeButton.setTitleColor(.white, for: .normal)
+        homeButton.addTarget(self, action: #selector(homeButtonTapped), for: .touchUpInside)
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -103,6 +124,10 @@ class TVSeriesViewController: BaseViewController {
             make.leading.equalTo(view.safeAreaLayoutGuide).inset(8)
         }
         
+        homeButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(8)
+        }
         tableView.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom)
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
